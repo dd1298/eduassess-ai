@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: eduassess-backend
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+
+eduassess:
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://127.0.0.1:5173
+  gemini:
+    model: gemini-2.5-pro
+

@@ -1,0 +1,97 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["teacher", "student", "admin"] },
+        "displayName": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "Educational subject",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "class": { "type": "string" }
+      },
+      "required": ["name", "class"]
+    },
+    "Topic": {
+      "title": "Topic",
+      "description": "Topic within a subject",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "name": { "type": "string" },
+        "parentId": { "type": "string" }
+      },
+      "required": ["subjectId", "name"]
+    },
+    "Question": {
+      "title": "Question",
+      "description": "Assessment question",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "topicId": { "type": "string" },
+        "text": { "type": "string" },
+        "type": { "type": "string", "enum": ["MCQ", "SHORT", "LONG", "FILL_BLANK"] },
+        "difficulty": { "type": "string", "enum": ["easy", "medium", "hard"] },
+        "marks": { "type": "number" },
+        "options": { "type": "array", "items": { "type": "string" } },
+        "correctAnswer": { "type": "string" },
+        "explanation": { "type": "string" }
+      },
+      "required": ["subjectId", "topicId", "text", "type", "difficulty", "marks"]
+    },
+    "Paper": {
+      "title": "Paper",
+      "description": "Generated question paper",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "questions": { "type": "array", "items": { "type": "string" } },
+        "totalMarks": { "type": "number" },
+        "duration": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "scheduledAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "subjectId", "teacherId", "questions", "totalMarks", "duration"]
+    },
+    "Result": {
+      "title": "Result",
+      "description": "Student exam result",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "paperId": { "type": "string" },
+        "studentId": { "type": "string" },
+        "score": { "type": "number" },
+        "answers": { "type": "object" },
+        "feedback": { "type": "string" },
+        "submittedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["paperId", "studentId", "score", "submittedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles" },
+    "/subjects/{subjectId}": { "schema": "Subject", "description": "Subjects" },
+    "/subjects/{subjectId}/topics/{topicId}": { "schema": "Topic", "description": "Topics" },
+    "/questions/{questionId}": { "schema": "Question", "description": "Question bank" },
+    "/papers/{paperId}": { "schema": "Paper", "description": "Generated papers" },
+    "/results/{resultId}": { "schema": "Result", "description": "Exam results" }
+  }
+}
